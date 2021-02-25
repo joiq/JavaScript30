@@ -45,6 +45,18 @@
       <kbd>L</kbd>
       <span class="sound">tink</span>
     </div>
+    <div data-key="81" class="key">
+      <kbd>Q</kbd>
+      <span class="sound">sample 1</span>
+    </div>
+    <div data-key="87" class="key">
+      <kbd>W</kbd>
+      <span class="sound">sample 2</span>
+    </div>
+    <div data-key="69" class="key">
+      <kbd>E</kbd>
+      <span class="sound">drum loop 1</span>
+    </div>
   </div>
 
   <audio data-key="65" src="sounds/clap.wav"></audio>
@@ -56,9 +68,30 @@
   <audio data-key="74" src="sounds/snare.wav"></audio>
   <audio data-key="75" src="sounds/tom.wav"></audio>
   <audio data-key="76" src="sounds/tink.wav"></audio>
+  <audio data-key="81" src="sounds/sample1.wav"></audio>
+  <audio data-key="87" src="sounds/sample2.wav"></audio>
+  <audio data-key="69" src="sounds/drumloop1.wav"></audio>
 
 <script>
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return;
+    e.target.classList.remove('playing');
+  }
 
+  function playAudio(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"`);
+    const key = document.querySelector(`div[data-key="${e.keyCode}"`);
+
+    if (!audio) return;
+
+    key.classList.add('playing');
+    audio.currentTime = 0;
+    audio.play();
+  }
+    
+  let keys = document.querySelectorAll('.key');
+  keys.forEach(item => item.addEventListener('transitionend', removeTransition));
+  document.addEventListener('keydown', playAudio);
 </script>
 
 
